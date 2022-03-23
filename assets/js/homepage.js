@@ -2,6 +2,7 @@ var userFormEl = document.querySelector("#user-form");
 var userInputEl = document.querySelector("#username");
 var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
+var languageButtonsEl = document.querySelector("#language-buttons");
 
 function formSubmitHandler(event) {
   event.preventDefault();
@@ -46,7 +47,7 @@ function displayRepos(repos, searchTerm) {
   // clear old content
   repoContainerEl.textContent = "";
   repoSearchTerm.textContent = searchTerm;
-  console.log(repos)
+  console.log(repos);
 
   //loop over repos
   for (var i = 0; i < repos.length; i++) {
@@ -85,3 +86,30 @@ function displayRepos(repos, searchTerm) {
     repoContainerEl.appendChild(repoEl);
   }
 }
+
+function getFeaturedRepos(language) {
+  var apiUrl =
+    "https://api.github.com/search/repositories?q=" +
+    language +
+    "+is:featured&sort=help-wanted-issues";
+
+  fetch(apiUrl).then((response) => {
+    if (response.ok) {
+      response.json().then(function (data) {
+        console.log(data);
+      });
+    } else alert("error");
+  });
+}
+
+function buttonClickHandler(event) {
+  var language = event.target.getAttribute("data-language");
+
+  if (language) {
+    getFeaturedRepos(language);
+
+    // clear old content
+    repoContainerEl.textContent = "";
+  }
+}
+languageButtonsEl.addEventListener("click", buttonClickHandler);
