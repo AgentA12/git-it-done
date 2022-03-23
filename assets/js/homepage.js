@@ -17,7 +17,7 @@ userFormEl.addEventListener("submit", formSubmitHandler);
 
 function getUserRepos(user) {
   //format the github url to be dynamic
-  var apiUrl = "https://api.github.com/users/" + user + "/repos";
+  var apiUrl = `https://api.github.com/users/${user}/repos`;
 
   //make a request to the url
   fetch(apiUrl)
